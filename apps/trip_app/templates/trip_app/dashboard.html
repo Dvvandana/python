@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="header navbar">
+            Hello {{logged_user.first_name}} 
+            <a href = "/logout"> Logout</a>
+            <a class = "btn " href = "/trips/new"><button> Create a new trip</button></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                    <h6> Your Trips:</h6>
+            </div>
+            
+            <table class = "table table-striped">
+                <thead >
+                    <th>Destination</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Plan</th>
+                    <th>Action</th>
+                </thead>
+                {% for each_trip in logged_user.trips_joined.all reversed %}
+                <tr>
+                    <td>
+                        <a href = "/trips/{{each_trip.id}}"> {{each_trip.destination}} </a>
+                    </td>
+                    <td>
+                        {{each_trip.start_date|date:"m/d/y"}}
+                    </td>
+                    <td>
+                        {{each_trip.end_date|date:"m/d/y"}}
+                    </td>
+                    <td>
+                        {{each_trip.plan}}
+                    </td>
+                    {% if each_trip.created_by.id == logged_user.id %}
+                        <td>
+                            <a href ="/trips/delete/{{each_trip.id}}"> Remove</a> <a href= "/trips/edit/{{each_trip.id}}"> Edit </a>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href ="/trips/cancel/{{each_trip.id}}"> Cancel</a>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            Other People's trips:
+            <table class = "table table-striped">
+                <thead >
+                    <th>Destination</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Plan</th>
+                    <th>Action</th>
+                </thead>
+                {% for each_trip in remaining_trips reversed %}
+                    <tr>
+                        <td>
+                            <a href = "/trips/{{each_trip.id}}"> {{each_trip.destination}} </a>
+                        </td>
+                        <td>
+                            {{each_trip.start_date|date:"m/d/y"}}
+                        </td>
+                        <td>
+                            {{each_trip.end_date|date:"m/d/y"}}
+                        </td>
+                        <td>
+                            {{each_trip.plan}}
+                        </td>
+                        <td>
+                            <a href ="/trips/join/{{each_trip.id}}"> Join</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    {% endfor %}
+                </table>
+        </div>
+    </div>  
+    
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
+</body>
+</html>

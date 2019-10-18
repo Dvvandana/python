@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Displaying Trip Details</title>
+     <!-- Bootstrap -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="navbar header">
+            <h5>Hello {{logged_user.first_name}}</h5>
+            <a href = "/dashboard"> Dashboard</a>
+            <a href = "/logout"> Log Out</a>
+        </div>
+        <div class="container">
+            <h4>{{cur_trip.destination}} </h4>
+            <div class="hero-unit bordered">
+                <p>Start Date: {{cur_trip.start_date|date:"m/d/y"}}</p>
+                <p>End Date: {{cur_trip.end_date|date:"m/d/y"}}</p>
+                <p>Created On: {{cur_trip.created_at|date:"m/d/y"}}</p>
+                <p>Last Updated: {{cur_trip.updated_at|date:"m/d/y"}}</p>
+                <p>Plan Date: {{cur_trip.plan}}</p>
+                <p> Created by : {{cur_trip.created_by.first_name}} </p>
+            </div>
+        </div>
+        <div class="container hero-unit">
+            People Who have Joined the Trip:
+            <ul>
+            {% for each_user in cur_trip.travellers.all %}
+                        
+                {% if each_user == cur_trip.created_by %}
+                {% else %}
+                    <li>{{each_user.first_name}} {{each_user.last_name}} </li>
+                {% endif %}
+            {%empty%}
+            
+            {% endfor %}
+            </ul>
+        </div>
+    
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
+
+</body>
+</html>
